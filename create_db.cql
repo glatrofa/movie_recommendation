@@ -1,28 +1,29 @@
+// place all the files in the db folder
 // load movies
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM './data/movielens/movies.csv' AS row
+:auto USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM 'file:///movies.csv' AS row
 FIELDTERMINATOR '|'
 CREATE (:Movies {movieId: row.movieId, title: row.title, rating_mean: row.rating_mean});
 
 CREATE INDEX ON :Movies(movieId);
 
 // load genres
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM './data/output/genres.csv' AS row
+:auto USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM 'file:///genres.csv' AS row
 FIELDTERMINATOR '|'
 CREATE (:Genres {genre: row.genre});
 
 // create relationships between movies and genres
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM './data/output/movies_genres.csv' AS row
+:auto USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM 'file:///movies_genres.csv' AS row
 FIELDTERMINATOR '|'
 MATCH (movie:Movies {movieId: row.movieId})
 MATCH (genre:Genres {genre: row.genres})
 MERGE (movie)-[:GENRES]->(genre);
 
 // create relationships between movies
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM './data/output/movies_similarity.csv' AS row
+:auto USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM 'file:///movies_similarity.csv' AS row
 FIELDTERMINATOR '|'
 MATCH (movie1:Movies {movieId: row.movieId})
 MATCH (movie2:Movies {movieId: row.sim_moveId})
