@@ -1,4 +1,5 @@
-// place all the files in the db folder
+// place all the files in the db import folder
+
 // load movies
 :auto USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM 'file:///movies.csv' AS row
