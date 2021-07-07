@@ -1,4 +1,3 @@
-# hide folders
-venv
+win-venv
 .vscode
 data
